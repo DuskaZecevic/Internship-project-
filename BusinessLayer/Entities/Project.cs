@@ -6,6 +6,7 @@ namespace BusinessLayer.Entities
 {
     public class Project
     {
+
         public string nameOfProject { get; set; }
         public DateTime? startDate { get; set; }
         public DateTime? completionDate { get; set; }
