@@ -7,16 +7,11 @@ namespace BusinessLayer.Entities
     public class Project
     {
 
-        public string nameOfProject { get; set; }
-        public DateTime? startDate { get; set; }
-        public DateTime? completionDate { get; set; }
-        public enum statusOfProject
-        {
-            NotStarted,
-            Active,
-            Completed
-        };
+        public string Name { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? CompletionDate { get; set; }
+        public ProjectStatus Status  { get; set; }  
 
-        public int priorityOfProject { get; set; }
+        public int Priority { get; set; }
     }
 }

@@ -6,14 +6,11 @@ namespace BusinessLayer.Entities
 {
     public class Task
     {
-        public string name { get; set; }
-        public enum status
-        {
-            ToDo,
-            InProgress,
-            Done
-        };
-        public string description { get; set; }
-        public int priority { get; set; }
+        public string Name { get; set; }
+
+        public TaskStatus Status { get; set; }
+        public string Description { get; set; }
+        public int Priority { get; set; }
     }
+    
 }
