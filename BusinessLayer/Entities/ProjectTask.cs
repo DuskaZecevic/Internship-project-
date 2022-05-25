@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace BusinessLayer.Entities
 {
-    public class Task
+    public class ProjectTask
     {
+        [Key]
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public TaskStatus Status { get; set; }
