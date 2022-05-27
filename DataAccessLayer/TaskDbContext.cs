@@ -8,9 +8,9 @@ using System.Text;
 
 namespace DataAccessLayer.Model
 {
-    public class ConnectTaskDb :DbContext
+    public class TaskDbContext :DbContext
     {
-        public ConnectTaskDb(DbContextOptions<ConnectTaskDb> options) : base(options)
+        public TaskDbContext(DbContextOptions<TaskDbContext> options) : base(options)
         {
 
         }

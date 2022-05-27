@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
-    [DbContext(typeof(ConnectTaskDb))]
+    [DbContext(typeof(TaskDbContext))]
     [Migration("20220524121749_AddMigrationToDatabase")]
     partial class AddMigrationToDatabase
     {
