@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DataAccessLayer.Model;
 using Microsoft.OpenApi.Models;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer.Repositories;
 
 namespace WEB_API
 {
@@ -34,6 +36,7 @@ namespace WEB_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web_API", Version = "v1" });
             });
+            services.AddSingleton<ITaskRepository, TaskRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +45,7 @@ namespace WEB_API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
             }
 
             app.UseHttpsRedirection();

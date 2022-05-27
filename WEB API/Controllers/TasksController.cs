@@ -1,8 +1,11 @@
-﻿using DataAccessLayer.Model;
+﻿using BusinessLayer.Entities;
+using BusinessLayer.Interfaces;
+using DataAccessLayer.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace WEB_API.Controllers
 {
@@ -10,41 +13,36 @@ namespace WEB_API.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly TaskDbContext _dbContext;
-        public TasksController(TaskDbContext dbContext)
+        private readonly ITaskServices _taskServices;
+        public TasksController(ITaskServices taskServices)
         {
-            _dbContext = dbContext;
+            _taskServices = taskServices;
         }
-        [HttpGet("Get tasks")]
-        public IActionResult Get()
+        [HttpGet("Get")]
+        public async Task<ActionResult> Get()
         {
             try
             {
-                var tasks = _dbContext.Tasks.ToList();
-                if (tasks.Count == 0)
-                {
-                    return StatusCode(404, "No user found");
-                }
-                return Ok(tasks);
+                return Ok();
                     
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
 
-                return StatusCode(500, "An error has occurred");
+                return StatusCode(500, $"An error has occurred$: {ex.Message}");
             }
             
         }
 
-        [HttpPost("CreateTasks")]
-        public IActionResult CreateTask([FromBody] TaskDto dto)
+        [HttpPost("Create")]
+        public IActionResult CreateTask([FromBody]  ProjectTask projectTask)
         {
             
 
             return Ok();
         }
 
-        [HttpPut("UpdateTasks")]
+        [HttpPut("Update/{Id}")]
         public IActionResult Update([FromBody] TaskDto dto)
         {
             try
@@ -57,13 +55,12 @@ namespace WEB_API.Controllers
                 return StatusCode(500, "An error has occurred");
 
             }
-            var tasks = _dbContext.Tasks.ToList();
-            return Ok(tasks);
+            return Ok();
 
         }
 
         [HttpDelete("DeleteTasks/{Id}")]
-        public IActionResult Delete(int Id)
+        public IActionResult TaskDto (int Id)
         {
             return Ok();
         }
