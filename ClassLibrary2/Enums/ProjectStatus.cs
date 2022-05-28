@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EnumsForStatus.Enums
+namespace ClassLibrary2.Enums
 {
     public enum ProjectStatus
     {
