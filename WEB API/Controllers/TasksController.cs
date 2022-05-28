@@ -1,6 +1,7 @@
-﻿using BusinessLayer.Entities;
+﻿
+using BusinessLayer.Entities;
 using BusinessLayer.Interfaces;
-using DataAccessLayer.Model;
+using BusinessLayer.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace WEB_API.Controllers
             }
             
         }
-        [HttpGet("Get/{Id}")]
+        [HttpGet("Get/{id:int}")]
         public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> GetTask(int id)
         {
             try
@@ -66,7 +67,11 @@ namespace WEB_API.Controllers
                 {
                     return BadRequest();
                 }
-                
+                var ProjectOfTask = _taskServices.GetProject(projectTask.ProjectId);
+                if (ProjectOfTask == null)
+                {
+                    return StatusCode(404, "Not found");
+                }
                 var createdTask = await _taskServices.AddTask(projectTask);
                 if (createdTask == null)
                 {
@@ -80,13 +85,27 @@ namespace WEB_API.Controllers
             }
         }
 
-        [HttpPut("Update/{Id}")]
+        [HttpPut("Update/{id:int}")]
         public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> Update(int id, ProjectTask projectTask)
         {
             try
             {
+                var ProjectOfTask = _taskServices.GetProject(projectTask.ProjectId);
+                var taskToUpdate = _taskServices.GetTask(id).Result;
+                if(ProjectOfTask == null)
+                {
+                    return StatusCode(404, "Not found");
+                }
+                else if (taskToUpdate == null)
+                {
+                    return StatusCode(404, "Not found");
+                }
                 var UpdateTask = await _taskServices.UpdateTask(id, projectTask);
-                return Ok(UpdateTask);
+                if(UpdateTask == null)
+                {
+                    return BadRequest();
+                }
+                return Ok( UpdateTask);
             }
             catch (System.Exception)
             {
@@ -98,7 +117,7 @@ namespace WEB_API.Controllers
 
         }
 
-        [HttpDelete("DeleteTasks/{Id}")]
+        [HttpDelete("DeleteTasks/{id:int}")]
         public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> DeleteTask (int Id)
         {
             try
@@ -119,6 +138,6 @@ namespace WEB_API.Controllers
         }
 
         
-            
+          
     }
 }

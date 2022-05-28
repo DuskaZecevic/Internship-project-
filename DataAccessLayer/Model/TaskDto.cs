@@ -1,5 +1,5 @@
 ﻿
-using BusinessLayer.Entities;
+using ClassLibrary2.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

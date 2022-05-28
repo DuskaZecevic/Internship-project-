@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Entities;
+﻿
+using DataAccessLayer.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 
 
-namespace DataAccessLayer.Model
+namespace DataAccessLayer
 {
     public class TaskDbContext :DbContext
     {
@@ -14,7 +15,7 @@ namespace DataAccessLayer.Model
         {
 
         }
-        public DbSet<ProjectTask> Tasks { get; set;}
-        public DbSet<Project> Projects { get; set; }
+        public DbSet<TaskDto> Tasks { get; set;}
+        public DbSet<ProjectDto> Projects { get; set; }
     }
 }

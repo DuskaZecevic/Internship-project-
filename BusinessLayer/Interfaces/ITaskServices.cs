@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Entities;
+using DataAccessLayer.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,6 @@ namespace BusinessLayer.Interfaces
         Task<Task> DeleteTask(Task task);  
         Task<Task> UpdateTask(int taskId, ProjectTask projectTask);
         Project GetProject (int ProjectId);
-
+        Task AddTask(TaskDto dtoTask);
     }
 }

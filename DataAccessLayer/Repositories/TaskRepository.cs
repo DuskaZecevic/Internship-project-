@@ -25,7 +25,7 @@ namespace DataAccessLayer.Repositories
         {
             throw new NotImplementedException();
         }
-        public Task<TaskDto> AddTask(TaskDto task)
+        public Task<Model.TaskDto> AddTask(Model.TaskDto task)
         {
 
             throw new NotImplementedException();

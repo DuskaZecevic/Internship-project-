@@ -19,7 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
+       <ProjectReference Include="..\ClassLibrary2\EnumsForStatus.csproj" />
+       
+
   </ItemGroup>
 
 </Project>
