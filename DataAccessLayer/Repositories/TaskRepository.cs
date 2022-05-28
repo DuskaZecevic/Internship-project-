@@ -9,17 +9,27 @@ namespace DataAccessLayer.Repositories
 {
     public class TaskRepository : ITaskRepository
     {
-        private readonly TaskDbContext _dbContext;
-        public TaskRepository(TaskDbContext dbContext)
+        private readonly TaskDbContext _taskdbContext;
+        public TaskRepository(TaskDbContext taskDbContext)
         {
-            _dbContext = dbContext;
+            _taskdbContext = taskDbContext;
         }
-        public Task<TaskDto> AddTask()
+        public Task<TaskDto> AddTask(TaskDto task)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TaskDto> DeleteTask(int Id)
+        public Task<TaskDto> DeleteTask(TaskDto task)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TaskDto>> GetAllTasks()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ProjectDto GetProject(int ProjectId)
         {
             throw new NotImplementedException();
         }
@@ -29,7 +39,7 @@ namespace DataAccessLayer.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<TaskDto> UpdateTask()
+        public Task<TaskDto> UpdateTask(TaskDto task)
         {
             throw new NotImplementedException();
         }

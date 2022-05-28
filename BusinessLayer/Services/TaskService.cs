@@ -13,6 +13,7 @@ namespace BusinessLayer.Services
     public class TaskService : ITaskServices
     {
         
+        
 
         public Task<Task> AddTask(ProjectTask projectTask)
         {
@@ -20,6 +21,21 @@ namespace BusinessLayer.Services
         }
 
         public Task<Task> DeleteTask(int taskId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Task> DeleteTask(Task task)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Task>> GetAllTasks()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Project GetProject(int ProjectId)
         {
             throw new NotImplementedException();
         }
