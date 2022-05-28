@@ -20,6 +20,7 @@ namespace BusinessLayer.Services
         {   
             _taskRepository = taskRepository;
         }
+
         public async Task<DataAccessLayer.Model.TaskDto> AddTask(ProjectTask projectTask)
         {
             var project = _taskRepository.GetProject(projectTask.ProjectId);
@@ -30,21 +31,18 @@ namespace BusinessLayer.Services
                 ProjectId = projectTask.ProjectId,
                 Description = projectTask.Description,
                 Status = projectTask.Status,
-                
+                Project = project
+
             };
             var result = await _taskRepository.AddTask(taskModel);
             return result;
-            
+
         }
 
-        public Task AddTask(TaskDto dtoTask)
+        public async Task<DataAccessLayer.Model.TaskDto> DeleteTask(DataAccessLayer.Model.TaskDto taskDto)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Task> DeleteTask(Task task)
-        {
-            throw new NotImplementedException();
+            await _taskRepository.DeleteTask(taskDto);
+            return taskDto;
         }
 
         public async Task<IEnumerable<DataAccessLayer.Model.TaskDto>> GetAllTasks()
@@ -52,34 +50,33 @@ namespace BusinessLayer.Services
             return await _taskRepository.GetAllTasks();
         }
 
-        public Project GetProject(int ProjectId)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<DataAccessLayer.Model.TaskDto> GetTask(int taskId)
         {
             return await _taskRepository.GetTask(taskId);
         }
 
-        public Task<Task> UpdateTask(int taskId, ProjectTask projectTask)
+        public async Task<DataAccessLayer.Model.TaskDto> UpdateTask(int taskId, ProjectTask projectTask)
+        {
+            var project = _taskRepository.GetProject(projectTask.ProjectId);
+            DataAccessLayer.Model.TaskDto projectModel = new DataAccessLayer.Model.TaskDto
+            {
+                Id = taskId,
+                Name = projectTask.Name,
+                Project = project,
+                ProjectId = projectTask.ProjectId,
+                Description = projectTask.Description,
+                Priority = projectTask.Priority,
+            };
+            projectModel.Status = projectTask.Status;
+            var result = await _taskRepository.UpdateTask(projectModel);
+            return result;
+        }
+
+        public Project GetProject(int projectId)
         {
             throw new NotImplementedException();
         }
 
-        Task<Task> ITaskServices.AddTask(ProjectTask projectTask)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IEnumerable<Task>> ITaskServices.GetAllTasks()
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Task> ITaskServices.GetTask(int taskId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

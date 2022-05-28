@@ -9,12 +9,12 @@ namespace BusinessLayer.Interfaces
 {
     public interface ITaskServices
     {
-        Task<Task> GetTask(int taskId);
-        Task<IEnumerable<Task>> GetAllTasks();
-        Task<Task> AddTask(ProjectTask projectTask);
-        Task<Task> DeleteTask(Task task);  
-        Task<Task> UpdateTask(int taskId, ProjectTask projectTask);
-        Project GetProject (int ProjectId);
-        Task AddTask(TaskDto dtoTask);
+        Task<DataAccessLayer.Model.TaskDto> GetTask(int taskId);
+        Task<IEnumerable<DataAccessLayer.Model.TaskDto>> GetAllTasks();
+        Task<DataAccessLayer.Model.TaskDto> AddTask(ProjectTask projectTask);
+        Task<DataAccessLayer.Model.TaskDto> DeleteTask(DataAccessLayer.Model.TaskDto task);  
+        Task<DataAccessLayer.Model.TaskDto> UpdateTask(int taskId, ProjectTask projectTask);
+        Project GetProject (int projectId);
+        
     }
 }
