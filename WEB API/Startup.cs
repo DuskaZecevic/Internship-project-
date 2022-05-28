@@ -41,7 +41,9 @@ namespace WEB_API
             });
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskServices, TaskService>();
-            
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectServices, ProjectService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
