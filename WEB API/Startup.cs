@@ -15,6 +15,8 @@ using DataAccessLayer.Model;
 using Microsoft.OpenApi.Models;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using BusinessLayer.Interfaces;
+using BusinessLayer.Services;
 
 namespace WEB_API
 {
@@ -36,7 +38,9 @@ namespace WEB_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web_API", Version = "v1" });
             });
-            services.AddSingleton<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITaskServices, TaskService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

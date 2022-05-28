@@ -12,15 +12,7 @@ namespace BusinessLayer.Services
 {
     public class TaskService : ITaskServices
     {
-        
-        
-
         public Task<Task> AddTask(ProjectTask projectTask)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Task> DeleteTask(int taskId)
         {
             throw new NotImplementedException();
         }
@@ -45,7 +37,7 @@ namespace BusinessLayer.Services
             throw new NotImplementedException();
         }
 
-        public Task<Task> UpdateTask(int Id, ProjectTask projectTask)
+        public Task<Task> UpdateTask(int taskId, ProjectTask projectTask)
         {
             throw new NotImplementedException();
         }

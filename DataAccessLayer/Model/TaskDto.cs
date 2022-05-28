@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Entities;
+﻿
+using BusinessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

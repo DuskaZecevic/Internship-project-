@@ -23,7 +23,8 @@ namespace WEB_API.Controllers
         {
             try
             {
-                return Ok(await _taskServices.GetAllTasks());
+                var result = await _taskServices.GetAllTasks();
+                return Ok(result);
                     
             }
             catch (System.Exception ex)
