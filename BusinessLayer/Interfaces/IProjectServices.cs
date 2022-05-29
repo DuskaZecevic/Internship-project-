@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.Entities;
-using ClassLibrary2.Enums;
+using WebApiCommon.Enums;
 using DataAccessLayer.Model;
 using Microsoft.AspNetCore.JsonPatch;
 using System;

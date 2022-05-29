@@ -20,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-       <ProjectReference Include="..\ClassLibrary2\EnumsForStatus.csproj" />
-       
-
+    <ProjectReference Include="..\ClassLibrary2\WebApiCommon.csproj" />
   </ItemGroup>
 
 </Project>

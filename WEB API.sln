@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{FDAAF09F-55C6-45B5-9920-0C2077209AF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumsForStatus", "ClassLibrary2\EnumsForStatus.csproj", "{F2B86720-A3B7-491B-9151-6F44ED1C1F3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiCommon", "ClassLibrary2\WebApiCommon.csproj", "{A92AD241-7C07-40E0-B2AD-4B349DDC4E6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{FDAAF09F-55C6-45B5-9920-0C2077209AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDAAF09F-55C6-45B5-9920-0C2077209AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDAAF09F-55C6-45B5-9920-0C2077209AF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2B86720-A3B7-491B-9151-6F44ED1C1F3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2B86720-A3B7-491B-9151-6F44ED1C1F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2B86720-A3B7-491B-9151-6F44ED1C1F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2B86720-A3B7-491B-9151-6F44ED1C1F3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A92AD241-7C07-40E0-B2AD-4B349DDC4E6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A92AD241-7C07-40E0-B2AD-4B349DDC4E6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A92AD241-7C07-40E0-B2AD-4B349DDC4E6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A92AD241-7C07-40E0-B2AD-4B349DDC4E6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
