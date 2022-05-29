@@ -40,9 +40,9 @@ namespace WEB_API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web_API", Version = "v1" });
             });
             services.AddScoped<ITaskRepository, TaskRepository>();
-            services.AddScoped<ITaskServices, TaskService>();
+            services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
-            services.AddScoped<IProjectServices, ProjectService>();
+            services.AddScoped<IProjectService, ProjectService>();
 
         }
 

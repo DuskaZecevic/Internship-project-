@@ -15,8 +15,8 @@ namespace WEB_API.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        private readonly IProjectServices _projectServices;
-        public ProjectController(IProjectServices projectServices)
+        private readonly IProjectService _projectServices;
+        public ProjectController(IProjectService projectServices)
         {
             _projectServices = projectServices;
         }

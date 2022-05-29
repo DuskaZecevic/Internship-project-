@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Services
 {
-    public class TaskService : ITaskServices
+    public class TaskService : ITaskService
     {
 
         public readonly ITaskRepository _taskRepository;

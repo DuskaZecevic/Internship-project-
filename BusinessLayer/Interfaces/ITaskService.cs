@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Interfaces
 {
-    public interface ITaskServices
+    public interface ITaskService
     {
         Task<DataAccessLayer.Model.TaskDto> GetTask(int taskId);
         Task<IEnumerable<DataAccessLayer.Model.TaskDto>> GetAllTasks();

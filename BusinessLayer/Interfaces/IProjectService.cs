@@ -1,15 +1,12 @@
-﻿using BusinessLayer.Entities;
-using WebApiCommon.Enums;
-using DataAccessLayer.Model;
+﻿using DataAccessLayer.Model;
 using Microsoft.AspNetCore.JsonPatch;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using WebApiCommon.Enums;
 
 namespace BusinessLayer.Interfaces
 {
-    public interface IProjectServices
+    public interface IProjectService
     {
         Task<ProjectDto> GetProject(int projectId);
         Task<IEnumerable<ProjectDto>> GetAllProjects();

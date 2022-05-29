@@ -14,8 +14,8 @@ namespace WEB_API.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly ITaskServices _taskServices;
-        public TasksController(ITaskServices taskServices)
+        private readonly ITaskService _taskServices;
+        public TasksController(ITaskService taskServices)
         {
             _taskServices = taskServices;
         }

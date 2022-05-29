@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Services
 {
-    public class ProjectService : IProjectServices
+    public class ProjectService : IProjectService
     {
         private readonly IProjectRepository _projectRepository;
         public ProjectService(IProjectRepository projectRepository)
