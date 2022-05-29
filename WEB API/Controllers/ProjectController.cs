@@ -67,7 +67,15 @@ namespace WEB_API.Controllers
                 {
                     return BadRequest();
                 }
-                //zavrsi
+                else if (project.StartDate == null && project.CompletionDate.HasValue)
+                {
+                    return BadRequest();
+                }
+                else if (!int.TryParse(project.Priority.ToString(), out _))
+                {
+                    return BadRequest();
+                }
+                
                 var createdProject = await _projectServices.AddProjectAsync(project);
                 return createdProject;
             }
@@ -99,28 +107,6 @@ namespace WEB_API.Controllers
                 var projectToDelete = await _projectServices.GetProjectAsync(id);
                 //uslovi
                 return await _projectServices.DeleteProjectAsync(id);
-            }
-            catch (System.Exception)
-            {
-
-                return StatusCode(500, "An error has occurred");
-            }
-        }
-        [HttpGet("{search}")]
-        public async Task<ActionResult<IEnumerable<ProjectDto>>> SearchAsync(string name, int priority, ProjectStatus ProjectStatus, string sort)
-        {
-            try
-            {
-                var result = await _projectServices.Search(name, priority, ProjectStatus, sort);
-
-                if (result.Any())
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound();
-                }
             }
             catch (System.Exception)
             {

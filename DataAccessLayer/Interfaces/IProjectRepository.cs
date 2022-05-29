@@ -15,7 +15,6 @@ namespace DataAccessLayer.Interfaces
         Task <ProjectDto> DeleteProject (ProjectDto project);
         Task <ProjectDto> GetProjectByName(string name);
         Task<ProjectDto> GetProjectByNameAndId(string name, int id);
-        Task<IEnumerable<ProjectDto>> Search(int projectId, int priority, ProjectStatus projectStatus, string sort);
         Task<ProjectDto> UpdateProjectPatch(int projectId, JsonPatchDocument<ProjectDto> project);
         
 

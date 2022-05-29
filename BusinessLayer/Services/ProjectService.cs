@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace BusinessLayer.Services
 {
@@ -67,11 +68,6 @@ namespace BusinessLayer.Services
         {
             var result = await _projectRepository.GetProjectByNameAndId(name, id);  
             return result;
-        }
-
-        public Task<IEnumerable<ProjectDto>> Search(string name, int priority, ProjectStatus projectStatus, string sort)
-        {
-            throw new NotImplementedException(); //zavrsi
         }
 
         public async Task<ProjectDto> UpdateProject(int projectId, ProjectDto project)

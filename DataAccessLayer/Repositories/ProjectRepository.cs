@@ -31,10 +31,6 @@ namespace DataAccessLayer.Repositories
             return project;
         }
 
-       /* public Task<IEnumerable<TaskDto>> FindAllTasks(int projectId)
-        {
-            throw new NotImplementedException(); //zavrsi
-        }*/
 
         public async Task<IEnumerable<ProjectDto>> GetAllProjects()
         {
@@ -56,10 +52,6 @@ namespace DataAccessLayer.Repositories
             return await _taskDbContext.Projects.FirstOrDefaultAsync(t => t.Name == name && t.Id != id);
         }
 
-        public Task<IEnumerable<ProjectDto>> Search(int projectId, int priority, ProjectStatus projectStatus, string sort)
-        {
-            throw new NotImplementedException(); //zavrsi 
-        }
 
         public async Task<ProjectDto> UpdateProject(ProjectDto project)
         {

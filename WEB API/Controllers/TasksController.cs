@@ -64,11 +64,7 @@ namespace WEB_API.Controllers
                 {
                     return BadRequest();
                 }
-                var ProjectOfTask = _taskServices.GetProjectAsync(projectTask.ProjectId);
-                if (ProjectOfTask == null)
-                {
-                    return StatusCode(404, "Not found");
-                }
+                
                 var createdTask = await _taskServices.AddTaskAsync(projectTask);
                 if (createdTask == null)
                 {
@@ -87,13 +83,9 @@ namespace WEB_API.Controllers
         {
             try
             {
-                var ProjectOfTask = _taskServices.GetProjectAsync(projectTask.ProjectId);
+                
                 var taskToUpdate = _taskServices.GetTaskAsync(id).Result;
-                if(ProjectOfTask == null)
-                {
-                    return StatusCode(404, "Not found");
-                }
-                else if (taskToUpdate == null)
+                if (taskToUpdate == null)
                 {
                     return StatusCode(404, "Not found");
                 }

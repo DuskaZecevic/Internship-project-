@@ -8,7 +8,6 @@ namespace BusinessLayer.Entities
     public class ProjectTask
     {
         [Key]
-        //svaki zadatak deo samo jednog projekta
         public int ProjectId { get; set; }
         public string Name { get; set; }
         public TaskStatus Status { get; set; }

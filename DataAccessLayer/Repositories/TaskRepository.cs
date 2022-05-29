@@ -1,7 +1,9 @@
 ﻿using DataAccessLayer.Interfaces;
 using DataAccessLayer.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
@@ -13,41 +15,48 @@ namespace DataAccessLayer.Repositories
         {
             _taskDbContext = taskDbContext;
         }
-        public Task<Model.TaskDto> GetTaskAsync(int taskId)
+        public async Task<Model.TaskDto> GetTaskAsync(int taskId)
         {
-
-            throw new NotImplementedException();
+            return await _taskDbContext.Tasks.Include(p => p.Project).FirstOrDefaultAsync(p => p.Id == taskId);
         }
 
-        public ProjectDto GetProjectAsync(int ProjectId)
+        public async Task<Model.TaskDto> AddTaskAsync(Model.TaskDto task)
         {
-            throw new NotImplementedException();
-        }
-        public Task<Model.TaskDto> AddTaskAsync(Model.TaskDto task)
-        {
-
-            throw new NotImplementedException();
+            var result = await _taskDbContext.AddAsync(task);
+            await _taskDbContext.SaveChangesAsync();
+            return result.Entity;
+           
         }
 
-        public Task<TaskDto> DeleteTaskAsync(TaskDto task)
-        {
-            throw new NotImplementedException();
+        public async Task<TaskDto> DeleteTaskAsync(TaskDto task)
+        { 
+            _taskDbContext.Remove(task);
+            await _taskDbContext.SaveChangesAsync();
+            return task;
         }
 
-        public Task<IEnumerable<Model.TaskDto>> GetAllTasksAsync()
+        public async Task<IEnumerable<Model.TaskDto>> GetAllTasksAsync()
         {
-
-            throw new NotImplementedException();
+            return await _taskDbContext.Tasks.ToListAsync();
+            
         }
 
         
-        public Task<Model.TaskDto> UpdateTaskAsync(Model.TaskDto task)
+        public async Task<Model.TaskDto> UpdateTaskAsync(Model.TaskDto task)
         {
-            throw new NotImplementedException();
+            var result = await _taskDbContext.Tasks.FirstOrDefaultAsync(p => p.Id == task.Id);  
+            result.Name = task.Name;
+            result.Description = task.Description;
+            result.Status = task.Status;
+            result.Priority = task.Priority;
+            result.ProjectId = task.ProjectId;
+            await _taskDbContext.SaveChangesAsync();
+            return result;
         }
-        public Task<IEnumerable<TaskDto>> FindAllTasks(int projectId)
+        public async Task<IEnumerable<TaskDto>> FindAllTasks(int projectId)
         {
-            throw new NotImplementedException(); //zavrsi
+            IQueryable<Model.TaskDto> AllTasksInProject = _taskDbContext.Tasks.Where(p=>p.ProjectId == projectId);
+            return await AllTasksInProject.ToListAsync();
         }
     }
 }

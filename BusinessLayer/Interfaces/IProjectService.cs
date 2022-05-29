@@ -14,7 +14,6 @@ namespace BusinessLayer.Interfaces
         Task<ProjectDto> UpdateProject(int projectId, ProjectDto project);
         Task<ProjectDto> UpdateProjectPatch(int projectId, JsonPatchDocument<ProjectDto> project);
         Task<ProjectDto> DeleteProjectAsync(int projectId);
-        Task<IEnumerable<ProjectDto>> Search(string name, int priority, ProjectStatus projectStatus, string sort);
         Task<ProjectDto> GetProjectByNameAsync(string name);
         Task<ProjectDto> GetProjectByNameAndIdAsync(string name, int id);
 

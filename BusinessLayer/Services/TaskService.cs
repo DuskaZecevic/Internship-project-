@@ -21,7 +21,7 @@ namespace BusinessLayer.Services
 
         public async Task<DataAccessLayer.Model.TaskDto> AddTaskAsync(ProjectTask projectTask)
         {
-            var project = _taskRepository.GetProjectAsync(projectTask.ProjectId);
+            
             DataAccessLayer.Model.TaskDto taskModel = new DataAccessLayer.Model.TaskDto
             {
                 Name = projectTask.Name,
@@ -29,8 +29,7 @@ namespace BusinessLayer.Services
                 ProjectId = projectTask.ProjectId,
                 Description = projectTask.Description,
                 Status = projectTask.Status,
-                Project = project
-
+                
             };
             var result = await _taskRepository.AddTaskAsync(taskModel);
             return result;
@@ -56,12 +55,11 @@ namespace BusinessLayer.Services
 
         public async Task<DataAccessLayer.Model.TaskDto> UpdateTaskAsync(int taskId, ProjectTask projectTask)
         {
-            var project = _taskRepository.GetProjectAsync(projectTask.ProjectId);
+            
             DataAccessLayer.Model.TaskDto projectModel = new DataAccessLayer.Model.TaskDto
             {
                 Id = taskId,
                 Name = projectTask.Name,
-                Project = project,
                 ProjectId = projectTask.ProjectId,
                 Description = projectTask.Description,
                 Priority = projectTask.Priority,
@@ -69,11 +67,6 @@ namespace BusinessLayer.Services
             projectModel.Status = projectTask.Status;
             var result = await _taskRepository.UpdateTaskAsync(projectModel);
             return result;
-        }
-
-        public Project GetProjectAsync(int projectId)
-        {
-            throw new NotImplementedException();
         }
         
         public async Task<IEnumerable<DataAccessLayer.Model.TaskDto>> FindAllTasksAsync(int projectId)

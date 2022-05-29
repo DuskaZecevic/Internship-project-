@@ -12,7 +12,7 @@ namespace BusinessLayer.Interfaces
         Task<DataAccessLayer.Model.TaskDto> DeleteTaskAsync(DataAccessLayer.Model.TaskDto task);  
         Task<DataAccessLayer.Model.TaskDto> UpdateTaskAsync(int taskId, ProjectTask projectTask);
         Task<IEnumerable<DataAccessLayer.Model.TaskDto>> FindAllTasksAsync(int projectId);
-        Project GetProjectAsync (int projectId);
+        
         
     }
 }
