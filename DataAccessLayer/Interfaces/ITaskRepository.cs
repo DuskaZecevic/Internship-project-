@@ -1,18 +1,17 @@
-﻿
-using DataAccessLayer.Model;
-using System.Collections;
+﻿using DataAccessLayer.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces
 {
-     public interface ITaskRepository
+    public interface ITaskRepository
     {
-        Task<TaskDto> GetTask(int Id);
-        Task<IEnumerable<Model.TaskDto>> GetAllTasks();
-        Task<Model.TaskDto> AddTask(Model.TaskDto task);
-        Task<Model.TaskDto> UpdateTask(Model.TaskDto task);
-        Task<Model.TaskDto> DeleteTask(Model.TaskDto task);
-        ProjectDto GetProject(int ProjectId);
+        Task<TaskDto> GetTaskAsync(int Id);
+        Task<IEnumerable<Model.TaskDto>> GetAllTasksAsync();
+        Task<Model.TaskDto> AddTaskAsync(Model.TaskDto task);
+        Task<Model.TaskDto> UpdateTaskAsync(Model.TaskDto task);
+        Task<Model.TaskDto> DeleteTaskAsync(Model.TaskDto task);
+        ProjectDto GetProjectAsync(int ProjectId);
+        Task<IEnumerable<Model.TaskDto>> FindAllTasks(int projectId);
     }
 }

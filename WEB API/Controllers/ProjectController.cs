@@ -1,10 +1,8 @@
 ﻿using BusinessLayer.Interfaces;
 using WebApiCommon.Enums;
 using DataAccessLayer.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,11 +19,11 @@ namespace WEB_API.Controllers
             _projectServices = projectServices;
         }
         [HttpGet("Get")]
-        public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAllProjects()
+        public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAllProjectsAsync()
         {
             try
             {
-                return Ok(await _projectServices.GetAllProjects());
+                return Ok(await _projectServices.GetAllProjectsAsync());
             }
             catch (System.Exception)
             {
@@ -34,11 +32,11 @@ namespace WEB_API.Controllers
             }
         }
         [HttpGet("{Id}")]
-        public async Task<ActionResult<ProjectDto>> GetProject(int id)
+        public async Task<ActionResult<ProjectDto>> GetProjectAsync(int id)
         {
             try
             {
-                var result = await _projectServices.GetProject(id);
+                var result = await _projectServices.GetProjectAsync(id);
                 if (result == null)
                 {
                     return NotFound();
@@ -52,7 +50,7 @@ namespace WEB_API.Controllers
             }
         }
         [HttpPost("Create")]
-        public async Task<ActionResult<ProjectDto>> CreateProject(ProjectDto project)
+        public async Task<ActionResult<ProjectDto>> CreateProjectAsync(ProjectDto project)
         {
             try
             {
@@ -60,7 +58,7 @@ namespace WEB_API.Controllers
                 {
                     return BadRequest();
                 }
-                var projectModel = _projectServices.GetProjectByName(project.Name).Result;
+                var projectModel = _projectServices.GetProjectByNameAsync(project.Name).Result;
                 if (projectModel != null)
                 {
                     return BadRequest();
@@ -70,7 +68,7 @@ namespace WEB_API.Controllers
                     return BadRequest();
                 }
                 //zavrsi
-                var createdProject = await _projectServices.AddProject(project);
+                var createdProject = await _projectServices.AddProjectAsync(project);
                 return createdProject;
             }
             catch (System.Exception)
@@ -79,11 +77,11 @@ namespace WEB_API.Controllers
             }
         }
         [HttpPut("Create/{Id}")]
-        public async Task<ActionResult<ProjectDto>> UpdateProject(int id, ProjectDto project)
+        public async Task<ActionResult<ProjectDto>> UpdateProjectAsync(int id, ProjectDto project)
         {
             try
             {
-                var projectToUpdate = await _projectServices.GetProject(id);
+                var projectToUpdate = await _projectServices.GetProjectAsync(id);
                 //stavi uslove
                 return await _projectServices.UpdateProject(id, project);
             }
@@ -94,13 +92,13 @@ namespace WEB_API.Controllers
             }
         }
         [HttpDelete("Delete/{Id}")]
-        public async Task<ActionResult<ProjectDto>> DeleteProject(int id)
+        public async Task<ActionResult<ProjectDto>> DeleteProjectAsync(int id)
         {
             try
             {
-                var projectToDelete = await _projectServices.GetProject(id);
+                var projectToDelete = await _projectServices.GetProjectAsync(id);
                 //uslovi
-                return await _projectServices.DeleteProject(id);
+                return await _projectServices.DeleteProjectAsync(id);
             }
             catch (System.Exception)
             {
@@ -109,7 +107,7 @@ namespace WEB_API.Controllers
             }
         }
         [HttpGet("{search}")]
-        public async Task<ActionResult<IEnumerable<ProjectDto>>> Search(string name, int priority, ProjectStatus ProjectStatus, string sort)
+        public async Task<ActionResult<IEnumerable<ProjectDto>>> SearchAsync(string name, int priority, ProjectStatus ProjectStatus, string sort)
         {
             try
             {
@@ -131,32 +129,8 @@ namespace WEB_API.Controllers
             }
         }
 
-        [HttpGet("{id:int}/Tasks")]
-        public async Task<ActionResult<IEnumerable<DataAccessLayer.Model.TaskDto>>> FindAllTasks(int id)
-        {
-            try
-            {
-                var result = await _projectServices.FindAllTasks(id);
-
-
-                if (result.Any())
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (System.Exception)
-            {
-
-                return StatusCode(500, "An error has occurred");
-            }
-        }
-
         [HttpPatch("{id:int}")]
-        public async Task<ActionResult<ProjectDto>> Patch(int id, JsonPatchDocument<ProjectDto> patchEntity)
+        public async Task<ActionResult<ProjectDto>> PatchAsync(int id, JsonPatchDocument<ProjectDto> patchEntity)
         {
 
             try

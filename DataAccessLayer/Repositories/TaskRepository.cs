@@ -2,9 +2,7 @@
 using DataAccessLayer.Model;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Repositories
 {
@@ -15,37 +13,41 @@ namespace DataAccessLayer.Repositories
         {
             _taskDbContext = taskDbContext;
         }
-        public Task<Model.TaskDto> GetTask(int taskId)
+        public Task<Model.TaskDto> GetTaskAsync(int taskId)
         {
 
             throw new NotImplementedException();
         }
 
-        public ProjectDto GetProject(int ProjectId)
+        public ProjectDto GetProjectAsync(int ProjectId)
         {
             throw new NotImplementedException();
         }
-        public Task<Model.TaskDto> AddTask(Model.TaskDto task)
+        public Task<Model.TaskDto> AddTaskAsync(Model.TaskDto task)
         {
 
             throw new NotImplementedException();
         }
 
-        public Task<TaskDto> DeleteTask(TaskDto task)
+        public Task<TaskDto> DeleteTaskAsync(TaskDto task)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Model.TaskDto>> GetAllTasks()
+        public Task<IEnumerable<Model.TaskDto>> GetAllTasksAsync()
         {
 
             throw new NotImplementedException();
         }
 
         
-        public Task<Model.TaskDto> UpdateTask(Model.TaskDto task)
+        public Task<Model.TaskDto> UpdateTaskAsync(Model.TaskDto task)
         {
             throw new NotImplementedException();
+        }
+        public Task<IEnumerable<TaskDto>> FindAllTasks(int projectId)
+        {
+            throw new NotImplementedException(); //zavrsi
         }
     }
 }

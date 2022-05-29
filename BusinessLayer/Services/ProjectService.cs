@@ -1,12 +1,10 @@
-﻿using BusinessLayer.Entities;
-using BusinessLayer.Interfaces;
+﻿using BusinessLayer.Interfaces;
 using WebApiCommon.Enums;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Model;
 using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLayer.Services
@@ -19,7 +17,7 @@ namespace BusinessLayer.Services
             _projectRepository = projectRepository;
         }
 
-        public async Task<ProjectDto> AddProject(ProjectDto project)
+        public async Task<ProjectDto> AddProjectAsync(ProjectDto project)
         {
             ProjectDto projectModel = new ProjectDto
             {
@@ -41,36 +39,31 @@ namespace BusinessLayer.Services
             return result; 
         }
 
-        public async Task<ProjectDto> DeleteProject(int projectId)
+        public async Task<ProjectDto> DeleteProjectAsync(int projectId)
         {
            var result = await _projectRepository.GetProject(projectId);
             await _projectRepository.DeleteProject(result);
             return result;
         }
 
-        public async Task<IEnumerable<TaskDto>> FindAllTasks(int projectId)
-        {
-           return await _projectRepository.FindAllTasks(projectId);
-        }
-
-        public async Task<IEnumerable<ProjectDto>> GetAllProjects()
+        public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync()
         {
             var projects = await _projectRepository.GetAllProjects();
             return projects;
         }
 
-        public async Task<ProjectDto> GetProject(int projectId)
+        public async Task<ProjectDto> GetProjectAsync(int projectId)
         {
             return await _projectRepository.GetProject(projectId);
         }
 
-        public async Task<ProjectDto> GetProjectByName(string name)
+        public async Task<ProjectDto> GetProjectByNameAsync(string name)
         {
             var result = await _projectRepository.GetProjectByName(name);
             return result;
         }
 
-        public async Task<ProjectDto> GetProjectByNameAndId(string name, int id)
+        public async Task<ProjectDto> GetProjectByNameAndIdAsync(string name, int id)
         {
             var result = await _projectRepository.GetProjectByNameAndId(name, id);  
             return result;

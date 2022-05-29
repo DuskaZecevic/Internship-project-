@@ -8,18 +8,17 @@ namespace BusinessLayer.Interfaces
 {
     public interface IProjectService
     {
-        Task<ProjectDto> GetProject(int projectId);
-        Task<IEnumerable<ProjectDto>> GetAllProjects();
-        Task<ProjectDto> AddProject(ProjectDto project);
+        Task<ProjectDto> GetProjectAsync(int projectId);
+        Task<IEnumerable<ProjectDto>> GetAllProjectsAsync();
+        Task<ProjectDto> AddProjectAsync(ProjectDto project);
         Task<ProjectDto> UpdateProject(int projectId, ProjectDto project);
         Task<ProjectDto> UpdateProjectPatch(int projectId, JsonPatchDocument<ProjectDto> project);
-        Task<ProjectDto> DeleteProject(int projectId);
-        Task<IEnumerable<DataAccessLayer.Model.TaskDto>> FindAllTasks(int projectId);
+        Task<ProjectDto> DeleteProjectAsync(int projectId);
         Task<IEnumerable<ProjectDto>> Search(string name, int priority, ProjectStatus projectStatus, string sort);
-        Task<ProjectDto> GetProjectByName(string name);
-        Task<ProjectDto> GetProjectByNameAndId(string name, int id);
-        
-        
+        Task<ProjectDto> GetProjectByNameAsync(string name);
+        Task<ProjectDto> GetProjectByNameAndIdAsync(string name, int id);
+
+
 
     }
 }

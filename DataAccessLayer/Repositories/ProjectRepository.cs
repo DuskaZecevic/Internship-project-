@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
@@ -32,10 +31,10 @@ namespace DataAccessLayer.Repositories
             return project;
         }
 
-        public Task<IEnumerable<TaskDto>> FindAllTasks(int projectId)
+       /* public Task<IEnumerable<TaskDto>> FindAllTasks(int projectId)
         {
             throw new NotImplementedException(); //zavrsi
-        }
+        }*/
 
         public async Task<IEnumerable<ProjectDto>> GetAllProjects()
         {

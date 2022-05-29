@@ -1,8 +1,5 @@
-﻿
-using BusinessLayer.Entities;
+﻿using BusinessLayer.Entities;
 using BusinessLayer.Interfaces;
-using BusinessLayer.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +17,11 @@ namespace WEB_API.Controllers
             _taskServices = taskServices;
         }
         [HttpGet("Get")]
-        public async Task<ActionResult> GetAllTasks()
+        public async Task<ActionResult> GetAllTasksAsync()
         {
             try
             {
-                var result = await _taskServices.GetAllTasks();
+                var result = await _taskServices.GetAllTasksAsync();
                 return Ok(result);
                     
             }
@@ -36,11 +33,11 @@ namespace WEB_API.Controllers
             
         }
         [HttpGet("Get/{id:int}")]
-        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> GetTask(int id)
+        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> GetTaskAsync(int id)
         {
             try
             {
-                var resultat = await _taskServices.GetTask(id);
+                var resultat = await _taskServices.GetTaskAsync(id);
                 if(resultat == null)
                 {
                     return StatusCode(404, "Not found");
@@ -57,7 +54,7 @@ namespace WEB_API.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> CreateTask(ProjectTask projectTask)
+        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> CreateTaskAsync(ProjectTask projectTask)
         {
             try
             {
@@ -67,17 +64,17 @@ namespace WEB_API.Controllers
                 {
                     return BadRequest();
                 }
-                var ProjectOfTask = _taskServices.GetProject(projectTask.ProjectId);
+                var ProjectOfTask = _taskServices.GetProjectAsync(projectTask.ProjectId);
                 if (ProjectOfTask == null)
                 {
                     return StatusCode(404, "Not found");
                 }
-                var createdTask = await _taskServices.AddTask(projectTask);
+                var createdTask = await _taskServices.AddTaskAsync(projectTask);
                 if (createdTask == null)
                 {
                     return BadRequest();
                 }
-                return CreatedAtAction(nameof(GetTask), new { id = createdTask.Id }, createdTask);
+                return CreatedAtAction(nameof(GetTaskAsync), new { id = createdTask.Id }, createdTask);
             }
             catch(System.Exception ex)
             {
@@ -86,12 +83,12 @@ namespace WEB_API.Controllers
         }
 
         [HttpPut("Update/{id:int}")]
-        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> Update(int id, ProjectTask projectTask)
+        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> UpdateAsync(int id, ProjectTask projectTask)
         {
             try
             {
-                var ProjectOfTask = _taskServices.GetProject(projectTask.ProjectId);
-                var taskToUpdate = _taskServices.GetTask(id).Result;
+                var ProjectOfTask = _taskServices.GetProjectAsync(projectTask.ProjectId);
+                var taskToUpdate = _taskServices.GetTaskAsync(id).Result;
                 if(ProjectOfTask == null)
                 {
                     return StatusCode(404, "Not found");
@@ -100,7 +97,7 @@ namespace WEB_API.Controllers
                 {
                     return StatusCode(404, "Not found");
                 }
-                var UpdateTask = await _taskServices.UpdateTask(id, projectTask);
+                var UpdateTask = await _taskServices.UpdateTaskAsync(id, projectTask);
                 if(UpdateTask == null)
                 {
                     return BadRequest();
@@ -118,16 +115,16 @@ namespace WEB_API.Controllers
         }
 
         [HttpDelete("DeleteTasks/{id:int}")]
-        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> DeleteTask (int Id)
+        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> DeleteTaskAsync (int Id)
         {
             try
             {
-                var TaskToDelete = await _taskServices.GetTask(Id);
+                var TaskToDelete = await _taskServices.GetTaskAsync(Id);
                 if (TaskToDelete == null)
                 {
                   return StatusCode(404, "Not found");
                 }
-                var DeleteThisTask = await _taskServices.DeleteTask(TaskToDelete);
+                var DeleteThisTask = await _taskServices.DeleteTaskAsync(TaskToDelete);
                 return Ok(DeleteThisTask);
             }
             catch (System.Exception)
@@ -136,8 +133,31 @@ namespace WEB_API.Controllers
                 return StatusCode(500, "An error has occurred");
             }
         }
+         [HttpGet("{id:int}/Tasks")]
+        public async Task<ActionResult<IEnumerable<DataAccessLayer.Model.TaskDto>>> FindAllTasksAsync(int id)
+        {
+            try
+            {
+                var result = await _taskServices.FindAllTasksAsync(id);
 
-        
-          
+
+                if (result.Any())
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (System.Exception)
+            {
+
+                return StatusCode(500, "An error has occurred");
+            }
+        }
+
+
+
     }
 }
