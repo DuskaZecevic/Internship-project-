@@ -7,7 +7,7 @@
     <ProjectGuid>{A92AD241-7C07-40E0-B2AD-4B349DDC4E6F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary2</RootNamespace>
+    <RootNamespace>WebApiCommon</RootNamespace>
     <AssemblyName>WebApiCommon</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
