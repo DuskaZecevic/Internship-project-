@@ -35,7 +35,7 @@ namespace DataAccessLayer.Repositories
             return task;
         }
 
-        public async Task<IEnumerable<Model.TaskDto>> GetAllTasksAsync()
+        public async Task<IEnumerable<Model.TaskDto>> GetAllTasks()
         {
             return await _taskDbContext.Tasks.ToListAsync();
             

@@ -44,7 +44,7 @@ namespace BusinessLayer.Services
 
         public async Task<IEnumerable<DataAccessLayer.Model.TaskDto>> GetAllTasksAsync()
         {
-            return await _taskRepository.GetAllTasksAsync();
+            return await _taskRepository.GetAllTasks();
         }
 
 
