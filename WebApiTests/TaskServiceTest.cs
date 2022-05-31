@@ -2,7 +2,6 @@
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Model;
 using Moq;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using Task = System.Threading.Tasks.Task;
@@ -34,7 +33,7 @@ namespace WebApiTests
             //Act
             var task = await _taskServiceTest.GetAllTasksAsync();
             //Assert
-            Assert.AreEqual(3, task.Count());
+            Assert.Equal(3, task.Count());
         }
         [Fact]
         public async Task GetAllTasks_shouldReturnAllNull_WhenTheyDoNotExist()
@@ -45,6 +44,17 @@ namespace WebApiTests
             var task = await _taskServiceTest.GetAllTasksAsync();
             //Assert
             Assert.Null(task);
+        }
+        [Fact]
+        public async Task GetAllTasks_ShouldThrowAnException()
+        {
+            //Arange
+            _taskRepositoryMock.Setup(x => x.GetAllTasks()).ThrowsAsync(new System.Exception("Unit test exception"));
+            //Act
+            var result = await Assert.ThrowsAsync<System.Exception>(async () => await _taskServiceTest.GetAllTasksAsync());
+            //Assert
+            Assert.True(result.Message == "Unit test exception");
+            _taskRepositoryMock.Verify(x => x.GetAllTasks(), Times.Once);
         }
 
     }
