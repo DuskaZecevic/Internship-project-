@@ -18,9 +18,9 @@ namespace WebApiTests
         {
             _tasks = new List<TaskDto>()
             {
-                new TaskDto() { ProjectId = 1, Name = "a", Status = WebApiCommon.Enums.TaskStatus.InProgress, Description ="a", Priority = 2 },
-                 new TaskDto() { ProjectId = 2, Name = "b", Status = WebApiCommon.Enums.TaskStatus.Done, Description ="b", Priority = 3 },
-                  new TaskDto() { ProjectId = 3, Name = "c", Status = WebApiCommon.Enums.TaskStatus.ToDo, Description ="c", Priority = 4 }
+                new TaskDto() { Id = 1, Name = "a", Status = WebApiCommon.Enums.TaskStatus.InProgress, Description ="a", Priority = 2 },
+                 new TaskDto() { Id = 2, Name = "b", Status = WebApiCommon.Enums.TaskStatus.Done, Description ="b", Priority = 3 },
+                  new TaskDto() { Id = 3, Name = "c", Status = WebApiCommon.Enums.TaskStatus.ToDo, Description ="c", Priority = 4 }
             };
 
             _taskServiceTest = new TaskService(_taskRepositoryMock.Object);

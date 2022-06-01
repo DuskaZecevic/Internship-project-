@@ -31,7 +31,7 @@ namespace WEB_API.Controllers
                 return StatusCode(500, "An error has occurred");
             }
         }
-        [HttpGet("{Id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ProjectDto>> GetProjectAsync(int id)
         {
             try
@@ -58,39 +58,46 @@ namespace WEB_API.Controllers
                 {
                     return BadRequest();
                 }
-                var projectModel = _projectServices.GetProjectByNameAsync(project.Name).Result;
-                if (projectModel != null)
+                /*var projectModel = _projectServices.GetProjectByNameAsync(project.Name).Result;
+                if (project.Name ==  projectModel.Name )
                 {
-                    return BadRequest();
+                    return BadRequest("Project with the same name already exist");
                 }
-                else if (projectModel.StartDate > projectModel.CompletionDate)
+                else if(project.Name != projectModel.Name)
                 {
-                    return BadRequest();
-                }
-                else if (project.StartDate == null && project.CompletionDate.HasValue)
-                {
-                    return BadRequest();
-                }
-                else if (!int.TryParse(project.Priority.ToString(), out _))
-                {
-                    return BadRequest();
-                }
-                
+                    if (projectModel.StartDate > projectModel.CompletionDate)
+                    {
+                        ModelState.AddModelError("CompletionDate", "Completion date cannon be earlier that start date");
+                        return BadRequest(ModelState);
+                    }
+                    else if (project.StartDate == null && project.CompletionDate.HasValue)
+                    {
+                        return BadRequest("Project must stated");
+                    }
+                    
+
+                }*/
                 var createdProject = await _projectServices.AddProjectAsync(project);
                 return createdProject;
+
+
+
             }
             catch (System.Exception)
             {
                 return StatusCode(500, "An error has occurred");
             }
         }
-        [HttpPut("Create/{Id}")]
+        [HttpPut("Update/{id}")]
         public async Task<ActionResult<ProjectDto>> UpdateProjectAsync(int id, ProjectDto project)
         {
             try
             {
                 var projectToUpdate = await _projectServices.GetProjectAsync(id);
-                //stavi uslove
+                if (projectToUpdate == null)
+                {
+                    return NotFound($"Project with Id = {id} not found");
+                }
                 return await _projectServices.UpdateProject(id, project);
             }
             catch (System.Exception)
@@ -99,14 +106,20 @@ namespace WEB_API.Controllers
                 return StatusCode(500, "An error has occurred");
             }
         }
-        [HttpDelete("Delete/{Id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult<ProjectDto>> DeleteProjectAsync(int id)
         {
             try
             {
                 var projectToDelete = await _projectServices.GetProjectAsync(id);
-                //uslovi
-                return await _projectServices.DeleteProjectAsync(id);
+                if (projectToDelete == null)
+                {
+                    return NotFound("Project cannot be found");
+                }
+                var result =  await _projectServices.DeleteProjectAsync(id);
+
+                
+                return result;
             }
             catch (System.Exception)
             {

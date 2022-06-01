@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Entities;
 using BusinessLayer.Interfaces;
+using DataAccessLayer.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,7 @@ namespace WEB_API.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> CreateTaskAsync(ProjectTask projectTask)
+        public async Task<ActionResult<TaskDto>> CreateTaskAsync(TaskDto projectTask)
         {
             try
             {
@@ -64,32 +65,29 @@ namespace WEB_API.Controllers
                 {
                     return BadRequest();
                 }
-                
-                var createdTask = await _taskServices.AddTaskAsync(projectTask);
-                if (createdTask == null)
-                {
-                    return BadRequest();
-                }
-                return CreatedAtAction(nameof(GetTaskAsync), new { id = createdTask.Id }, createdTask);
+                var createdTask = await  _taskServices.AddTaskAsync(projectTask);
+                return createdTask;
+               
             }
+
             catch(System.Exception ex)
             {
                 return StatusCode(500, $"An error has occurred$: {ex.Message}");
             }
         }
 
-        [HttpPut("Update/{id:int}")]
-        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> UpdateAsync(int id, ProjectTask projectTask)
+        [HttpPut("Update/{Id:int}")]
+        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> UpdateAsync(int Id, ProjectTask projectTask)
         {
             try
             {
                 
-                var taskToUpdate = _taskServices.GetTaskAsync(id).Result;
+                var taskToUpdate = _taskServices.GetTaskAsync(Id).Result;
                 if (taskToUpdate == null)
                 {
                     return StatusCode(404, "Not found");
                 }
-                var UpdateTask = await _taskServices.UpdateTaskAsync(id, projectTask);
+                var UpdateTask = await _taskServices.UpdateTaskAsync(Id, projectTask);
                 if(UpdateTask == null)
                 {
                     return BadRequest();
@@ -106,8 +104,8 @@ namespace WEB_API.Controllers
 
         }
 
-        [HttpDelete("DeleteTasks/{id:int}")]
-        public async Task<ActionResult<DataAccessLayer.Model.TaskDto>> DeleteTaskAsync (int Id)
+        [HttpDelete("DeleteTasks/{Id:int}")]
+        public async Task<ActionResult<TaskDto>> DeleteTaskAsync (int Id)
         {
             try
             {
@@ -125,7 +123,7 @@ namespace WEB_API.Controllers
                 return StatusCode(500, "An error has occurred");
             }
         }
-         [HttpGet("{id:int}/Tasks")]
+        /* [HttpGet("{id:int}/Tasks")]
         public async Task<ActionResult<IEnumerable<DataAccessLayer.Model.TaskDto>>> FindAllTasksAsync(int id)
         {
             try
@@ -147,7 +145,7 @@ namespace WEB_API.Controllers
 
                 return StatusCode(500, "An error has occurred");
             }
-        }
+        }*/
 
 
 

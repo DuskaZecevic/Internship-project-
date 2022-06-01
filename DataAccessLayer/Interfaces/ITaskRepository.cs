@@ -11,6 +11,6 @@ namespace DataAccessLayer.Interfaces
         Task<Model.TaskDto> AddTaskAsync(Model.TaskDto task);
         Task<Model.TaskDto> UpdateTaskAsync(Model.TaskDto task);
         Task<Model.TaskDto> DeleteTaskAsync(Model.TaskDto task);
-        Task<IEnumerable<Model.TaskDto>> FindAllTasks(int projectId);
+        
     }
 }
