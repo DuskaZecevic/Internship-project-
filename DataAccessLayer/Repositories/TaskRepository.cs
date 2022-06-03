@@ -17,15 +17,15 @@ namespace DataAccessLayer.Repositories
         }
         public async Task<TaskDto> GetTaskAsync(int taskId)
         {
-            return await _taskDbContext.Tasks.FirstOrDefaultAsync(p => p.Id == taskId);
+            return await _taskDbContext.Tasks.Include(p=> p.Project).FirstOrDefaultAsync(p => p.Id == taskId);
           
         }
 
         public async Task<TaskDto> AddTaskAsync(TaskDto task)
         {
-            await _taskDbContext.Tasks.AddAsync(task);
+            var result = await _taskDbContext.Tasks.AddAsync(task);
             await _taskDbContext.SaveChangesAsync();
-            return task;
+            return result.Entity;
             
         }
        
@@ -39,15 +39,15 @@ namespace DataAccessLayer.Repositories
 
         public async Task<IEnumerable<Model.TaskDto>> GetAllTasks()
         {
-            return await _taskDbContext.Tasks.ToListAsync();
+            return await _taskDbContext.Tasks.Include(p=>p.Project).ToListAsync();
             
         }
 
         
         public async Task<TaskDto> UpdateTaskAsync(TaskDto task)
         {
-            var result = await _taskDbContext.Tasks.Include(t => t.Id).FirstOrDefaultAsync(p => p.Id == task.Id);
-            result.Id = task.Id;
+            var result = await _taskDbContext.Tasks.FirstOrDefaultAsync(p => p.Id == task.Id);
+            result.ProjectId = task.ProjectId;
             result.Name = task.Name;
             result.Description = task.Description;
             result.Status = task.Status;
@@ -56,6 +56,10 @@ namespace DataAccessLayer.Repositories
             await _taskDbContext.SaveChangesAsync();
             return result;
         }
-       
+        public ProjectDto GetProject(int projectId)
+        {
+            var result = _taskDbContext.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
+            return result.Result;
+        }
     }
 }

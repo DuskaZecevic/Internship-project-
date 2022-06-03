@@ -6,8 +6,8 @@ namespace BusinessLayer.Entities
 {
     public class ProjectTask
     {
-        [Key]
-        public int Id { get; set; }
+        
+        public int ProjectId { get; set; }
         public string Name { get; set; }
         public TaskStatus Status { get; set; }
         public string Description { get; set; }

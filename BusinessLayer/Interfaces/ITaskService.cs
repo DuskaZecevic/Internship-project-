@@ -12,6 +12,7 @@ namespace BusinessLayer.Interfaces
         Task<DataAccessLayer.Model.TaskDto> AddTaskAsync(TaskDto projectTask);
         Task<DataAccessLayer.Model.TaskDto> DeleteTaskAsync(DataAccessLayer.Model.TaskDto task);  
         Task<DataAccessLayer.Model.TaskDto> UpdateTaskAsync(int taskId, ProjectTask projectTask);
-      
+        ProjectDto GetProject(int projectId);
+
     }
 }

@@ -22,8 +22,7 @@ namespace WEB_API.Controllers
         {
             try
             {
-                var result = await _taskServices.GetAllTasksAsync();
-                return Ok(result);
+                return Ok(await _taskServices.GetAllTasksAsync());
                     
             }
             catch (System.Exception ex)
@@ -65,9 +64,20 @@ namespace WEB_API.Controllers
                 {
                     return BadRequest();
                 }
+                var ProjectOfTask = _taskServices.GetProject(projectTask.ProjectId);
+                if (ProjectOfTask == null)
+                {
+                    return NotFound($"Project with Id = {projectTask.ProjectId} not found");
+                }
                 var createdTask = await  _taskServices.AddTaskAsync(projectTask);
-                return createdTask;
-               
+                if (createdTask == null)
+                {
+                    ModelState.AddModelError("TaskStatus", "Task status error. If project is done status must be completed. If project is not started status cannot be completed");
+                    return BadRequest(ModelState);
+                }
+                return Created("TaskCreated", createdTask);
+                
+                
             }
 
             catch(System.Exception ex)
@@ -81,18 +91,29 @@ namespace WEB_API.Controllers
         {
             try
             {
-                
+                var ProjectOfTask = _taskServices.GetProject(projectTask.ProjectId);
+
                 var taskToUpdate = _taskServices.GetTaskAsync(Id).Result;
-                if (taskToUpdate == null)
+
+                if (ProjectOfTask == null)
                 {
-                    return StatusCode(404, "Not found");
+                    return NotFound($"Project with Id = {projectTask.ProjectId} not found");
                 }
-                var UpdateTask = await _taskServices.UpdateTaskAsync(Id, projectTask);
-                if(UpdateTask == null)
+                else if (taskToUpdate == null)
                 {
-                    return BadRequest();
+                    return NotFound($"Task with Id = {Id} not found");
                 }
-                return Ok( UpdateTask);
+
+                var UpdatedTask = await _taskServices.UpdateTaskAsync(Id, projectTask);
+
+                if (UpdatedTask == null)
+                {
+                    ModelState.AddModelError("TaskStatus", "Task status error. If project is done status must be 'done'. If project is not started status must be 'toDo'");
+                    return BadRequest(ModelState);
+                }
+
+                return UpdatedTask;
+                
             }
             catch (System.Exception)
             {
