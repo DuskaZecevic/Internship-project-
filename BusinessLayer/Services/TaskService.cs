@@ -94,6 +94,7 @@ namespace BusinessLayer.Services
             var result = _taskRepository.GetProject(projectId);
             return result;
         }
+        #region private
         private ProjectTask GetMappedTask(TaskDto taskDto)
         {
             return new ProjectTask()
@@ -117,6 +118,7 @@ namespace BusinessLayer.Services
                 Status= projectTask.Status,
             };
         }
+        #endregion
     }
 
 }

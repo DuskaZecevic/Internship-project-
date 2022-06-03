@@ -64,17 +64,17 @@ namespace WEB_API.Controllers
                 {
                     return BadRequest();
                 }
-                //var ProjectOfTask = _taskServices.GetProject(projectTask.ProjectId);
-                //if (ProjectOfTask == null)
-                //{
-                //    return NotFound($"Project with Id = {projectTask.ProjectId} not found");
-                //}
+                var ProjectOfTask = _taskServices.GetProject(projectTask.ProjectId);
+                if (ProjectOfTask == null)
+                {
+                    return NotFound($"Project with Id = {projectTask.ProjectId} not found");
+                }
                 var createdTask = await  _taskServices.AddTaskAsync(projectTask);
-                //if (createdTask == null)
-                //{
-                 //   ModelState.AddModelError("TaskStatus", "Task status error. If project is done status must be completed. If project is not started status cannot be completed");
-                 //   return BadRequest(ModelState);
-                //}
+                if (createdTask == null)
+                {
+                   ModelState.AddModelError("TaskStatus", "Task status error. If project is done status must be completed. If project is not started status cannot be completed");
+                   return BadRequest(ModelState);
+                }
                 return Created("TaskCreated", createdTask);
                 
                 
@@ -144,29 +144,7 @@ namespace WEB_API.Controllers
                 return StatusCode(500, "An error has occurred");
             }
         }
-        /* [HttpGet("{id:int}/Tasks")]
-        public async Task<ActionResult<IEnumerable<DataAccessLayer.Model.TaskDto>>> FindAllTasksAsync(int id)
-        {
-            try
-            {
-                var result = await _taskServices.FindAllTasksAsync(id);
-
-
-                if (result.Any())
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (System.Exception)
-            {
-
-                return StatusCode(500, "An error has occurred");
-            }
-        }*/
+        
 
 
 
