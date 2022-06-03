@@ -37,9 +37,9 @@ namespace DataAccessLayer.Repositories
             return task;
         }
 
-        public async Task<IEnumerable<Model.TaskDto>> GetAllTasks()
+        public async Task<IEnumerable<TaskDto>> GetAllTasks()
         {
-            return await _taskDbContext.Tasks.Include(p=>p.Project).ToListAsync();
+            return await _taskDbContext.Tasks.Include(p => p.Project).ToListAsync();
             
         }
 
@@ -58,7 +58,7 @@ namespace DataAccessLayer.Repositories
         }
         public ProjectDto GetProject(int projectId)
         {
-            var result = _taskDbContext.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
+            var result =  _taskDbContext.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
             return result.Result;
         }
     }

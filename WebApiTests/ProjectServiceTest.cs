@@ -38,14 +38,15 @@ namespace WebApiTests
             Assert.Equal(3, project.Count());
         }
         [Fact]
-        public async Task GetAllTasks_shouldReturnAllNull_WhenTheyDoNotExist()
+        public async Task GetAllTasks_ShouldReturnEmptyResult_WhenTheyDoNotExist()
         {
             //Arange
-            _projectRepositoryMock.Setup(x => x.GetAllProjects()).ReturnsAsync(() => null);
+            _projectRepositoryMock.Setup(x => x.GetAllProjects()).ReturnsAsync(Enumerable.Empty<ProjectDto>);
             //Act
             var project = await _projectServiceTest.GetAllProjectsAsync();
             //Assert
-            Assert.Null(project);
+            Assert.NotNull(project);
+            Assert.Equal(0, project?.Count());
         }
         [Fact]
         public async Task GetAllTasks_ShouldThrowAnException()

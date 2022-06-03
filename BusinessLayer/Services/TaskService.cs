@@ -2,6 +2,7 @@
 using BusinessLayer.Interfaces;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Model;
+using DataAccessLayer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,10 +22,14 @@ namespace BusinessLayer.Services
             _taskRepository = taskRepository;
         }
 
-        public async Task<TaskDto> AddTaskAsync(TaskDto projectTask)
+        public async Task<ProjectTask> AddTaskAsync(ProjectTask projectTask)
         {
             var project = _taskRepository.GetProject(projectTask.ProjectId);
-            if (project.StartDate == null && (projectTask.Status == WebApiCommon.Enums.TaskStatus.Done || projectTask.Status == WebApiCommon.Enums.TaskStatus.InProgress))
+            TaskDto taskModel = GetMappedTaskDto(projectTask);
+            
+            taskModel.Project = project;
+           
+           if (project.StartDate == null && (projectTask.Status == WebApiCommon.Enums.TaskStatus.Done || projectTask.Status == WebApiCommon.Enums.TaskStatus.InProgress))
             {
                 return null;
             }
@@ -36,59 +41,82 @@ namespace BusinessLayer.Services
             {
                 return null;
             }
-
-            TaskDto taskModel = new TaskDto
-            {
-                Name = projectTask.Name,
-                Priority = projectTask.Priority,
-                ProjectId = projectTask.ProjectId,
-                Description = projectTask.Description,
-                Status = projectTask.Status,
-                Project = project,
-               
-                
-            };
             var result = await _taskRepository.AddTaskAsync(taskModel);
+            return GetMappedTask(result);
+            
+        }
+
+        public async Task<ProjectTask> DeleteTaskAsync(int id)
+        {
+            var result = await _taskRepository.GetTaskAsync(id);
+            await _taskRepository.DeleteTaskAsync(result);
+            return GetMappedTask(result);
+           
+            
+        }
+
+        public async Task<IEnumerable<ProjectTask>> GetAllTasksAsync()
+        {
+            
+            
+            var tasks = new List<ProjectTask>();
+            foreach (var taskDto in await _taskRepository.GetAllTasks())
+             {
+
+                 tasks.Add(GetMappedTask(taskDto));
+
+             }
+             return tasks;
+        }
+
+
+        public async Task<ProjectTask> GetTaskAsync(int taskId)
+        {
+            return GetMappedTask(await _taskRepository.GetTaskAsync(taskId));
+        }
+
+        public async Task<ProjectTask> UpdateTaskAsync(int taskId, ProjectTask projectTask)
+        {
+            var project = _taskRepository.GetProject(projectTask.ProjectId);
+            TaskDto taskModel = GetMappedTaskDto(projectTask);
+            taskModel.Id = taskId;
+            taskModel.Project = project;
+            taskModel.Status = projectTask.Status;
+
+            var result = GetMappedTask ( await _taskRepository.UpdateTaskAsync(taskModel));
             return result;
             
         }
 
-        public async Task<DataAccessLayer.Model.TaskDto> DeleteTaskAsync(DataAccessLayer.Model.TaskDto taskDto)
+    
+        public ProjectDto GetProject(int projectId)
         {
-            await _taskRepository.DeleteTaskAsync(taskDto);
-            return taskDto;
+            var result = _taskRepository.GetProject(projectId);
+            return result;
         }
-
-        public async Task<IEnumerable<DataAccessLayer.Model.TaskDto>> GetAllTasksAsync()
+        private ProjectTask GetMappedTask(TaskDto taskDto)
         {
-            return await _taskRepository.GetAllTasks();
-        }
-
-
-        public async Task<DataAccessLayer.Model.TaskDto> GetTaskAsync(int taskId)
-        {
-            return await _taskRepository.GetTaskAsync(taskId);
-        }
-
-        public async Task<DataAccessLayer.Model.TaskDto> UpdateTaskAsync(int taskId, ProjectTask projectTask)
-        {
-            var project = _taskRepository.GetProject(projectTask.ProjectId);
-            DataAccessLayer.Model.TaskDto projectModel = new DataAccessLayer.Model.TaskDto
+            return new ProjectTask()
             {
-                Id = taskId,
+                ProjectId = taskDto.ProjectId,
+                Name = taskDto.Name,
+                Description = taskDto.Description,
+                Priority = taskDto.Priority,
+                Status = taskDto.Status,
+                
+            };
+        }
+        private TaskDto GetMappedTaskDto(ProjectTask projectTask)
+        {
+            return new TaskDto()
+            {
                 ProjectId = projectTask.ProjectId,
                 Name = projectTask.Name,
                 Description = projectTask.Description,
                 Priority = projectTask.Priority,
-                Project = project
+                Status= projectTask.Status,
             };
-            projectModel.Status = projectTask.Status;
-            var result = await _taskRepository.UpdateTaskAsync(projectModel);
-            return result;
-        }
-        public ProjectDto GetProject(int projectId)
-        {
-            return _taskRepository.GetProject(projectId);
         }
     }
+
 }

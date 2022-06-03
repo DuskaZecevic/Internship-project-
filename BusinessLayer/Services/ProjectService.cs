@@ -3,10 +3,9 @@ using WebApiCommon.Enums;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Model;
 using Microsoft.AspNetCore.JsonPatch;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
+using BusinessLayer.Entities;
 
 namespace BusinessLayer.Services
 {
@@ -18,73 +17,65 @@ namespace BusinessLayer.Services
             _projectRepository = projectRepository;
         }
 
-        public async Task<ProjectDto> AddProjectAsync(ProjectDto project)
+        public async Task<Project> AddProjectAsync(Project project)
         {
-            ProjectDto projectModel = new ProjectDto
-            {
-                Name = project.Name,
-                StartDate = project.StartDate,
-                CompletionDate = project.CompletionDate,
-                Priority = project.Priority,
-                Status = ProjectStatus.NotStarted
-            };
-            if (project.StartDate != null && project.CompletionDate == null)
+            ProjectDto projectModel = GetMappedProjectDto(project);
+
+            if (projectModel.StartDate != null && projectModel.CompletionDate == null)
             {
                 projectModel.Status = ProjectStatus.Active;
             }
-            else if (project.StartDate != null && project.CompletionDate != null)
+            else if (projectModel.StartDate != null && projectModel.CompletionDate != null)
             {
                 projectModel.Status = ProjectStatus.Completed;
             }
             var result = await _projectRepository.AddProject(projectModel);
-            return result; 
+
+            return GetMappedProject(result);        
         }
 
-        public async Task<ProjectDto> DeleteProjectAsync(int projectId)
+        public async Task<Project> DeleteProjectAsync(int projectId)
         {
            var result = await _projectRepository.GetProject(projectId);
             await _projectRepository.DeleteProject(result);
-            return result;
+            return GetMappedProject(result);
         }
 
-        public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync()
+        public async Task<IEnumerable<Project>> GetAllProjectsAsync()
         {
-            var projects = await _projectRepository.GetAllProjects();
+            var projects = new List<Project>();
+            foreach (var projectDto in await _projectRepository.GetAllProjects())
+            {
+                projects.Add(GetMappedProject(projectDto));
+            }
             return projects;
         }
 
-        public async Task<ProjectDto> GetProjectAsync(int projectId)
+        public async Task<Project> GetProjectAsync(int projectId)
         {
-            return await _projectRepository.GetProject(projectId);
+            return GetMappedProject(await _projectRepository.GetProject(projectId));
         }
 
-        public async Task<ProjectDto> GetProjectByNameAsync(string name)
+        public async Task<Project> GetProjectByNameAsync(string name)
         {
-            var result = await _projectRepository.GetProjectByName(name);
-            return result;
+            return GetMappedProject(await _projectRepository.GetProjectByName(name));
         }
 
-        public async Task<ProjectDto> GetProjectByNameAndIdAsync(string name, int id)
+        public async Task<Project> GetProjectByNameAndIdAsync(string name, int id)
         {
-            var result = await _projectRepository.GetProjectByNameAndId(name, id);  
-            return result;
+            return GetMappedProject(await _projectRepository.GetProjectByNameAndId(name, id)); 
         }
 
-        public async Task<ProjectDto> UpdateProject(int projectId, ProjectDto project)
+        public async Task<Project> UpdateProject(int projectId, Project project)
         {
-            ProjectDto projectModel = new ProjectDto
-            {
-                Id = projectId,
-                Name = project.Name,
-                StartDate = project.StartDate,
-                CompletionDate = project.CompletionDate,
-                Priority = project.Priority,
-            };
-            if (project.StartDate != null && project.CompletionDate == null)
+            ProjectDto projectModel = GetMappedProjectDto(project);
+            projectModel.Id = projectId;
+
+            if (projectModel.StartDate != null && projectModel.CompletionDate == null)
             {
                 projectModel.Status = ProjectStatus.Active;
             }
-            else if (project.StartDate != null && project.CompletionDate != null)
+            else if (projectModel.StartDate != null && projectModel.CompletionDate != null)
             {
                 projectModel.Status = ProjectStatus.Completed;
             }
@@ -92,13 +83,12 @@ namespace BusinessLayer.Services
             {
                 projectModel.Status = ProjectStatus.NotStarted;
             }
-            var result = await _projectRepository.UpdateProject(projectModel);
-            return result;
+            return GetMappedProject(await _projectRepository.UpdateProject(projectModel));
         }
 
-        public async Task<ProjectDto> UpdateProjectPatch(int projectId, JsonPatchDocument<ProjectDto> project)
+        public async Task<Project> UpdateProjectPatch(int projectId, JsonPatchDocument<ProjectDto> project)
         {
-            var result = await _projectRepository.GetProject(projectId);
+            var result = GetMappedProject(await _projectRepository.GetProject(projectId));
             if (result != null)
             {
                 await _projectRepository.UpdateProjectPatch(projectId, project);
@@ -106,5 +96,30 @@ namespace BusinessLayer.Services
             }
             return null;
         }
+
+        #region private
+
+        private Project GetMappedProject(ProjectDto projectDto)
+        {
+            return new Project()
+            {
+                Name = projectDto.Name,
+                StartDate = projectDto.StartDate,
+                CompletionDate = projectDto.CompletionDate,
+                Priority = projectDto.Priority
+            };
+        }
+
+        private ProjectDto GetMappedProjectDto(Project project)
+        {
+            return new ProjectDto()
+            {
+                Name = project.Name,
+                StartDate = project.StartDate,
+                CompletionDate = project.CompletionDate,
+                Priority = project.Priority,
+            };
+        }
+        #endregion
     }
 }

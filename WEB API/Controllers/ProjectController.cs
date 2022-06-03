@@ -1,11 +1,10 @@
 ﻿using BusinessLayer.Interfaces;
-using WebApiCommon.Enums;
 using DataAccessLayer.Model;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using BusinessLayer.Entities;
 
 namespace WEB_API.Controllers
 {
@@ -19,7 +18,7 @@ namespace WEB_API.Controllers
             _projectServices = projectServices;
         }
         [HttpGet("Get")]
-        public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAllProjectsAsync()
+        public async Task<ActionResult<IEnumerable<Project>>> GetAllProjectsAsync()
         {
             try
             {
@@ -32,7 +31,7 @@ namespace WEB_API.Controllers
             }
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProjectDto>> GetProjectAsync(int id)
+        public async Task<ActionResult<Project>> GetProjectAsync(int id)
         {
             try
             {
@@ -50,7 +49,7 @@ namespace WEB_API.Controllers
             }
         }
         [HttpPost("Create")]
-        public async Task<ActionResult<ProjectDto>> CreateProjectAsync(ProjectDto project)
+        public async Task<ActionResult<Project>> CreateProjectAsync(Project project)
         {
             try
             {
@@ -58,29 +57,9 @@ namespace WEB_API.Controllers
                 {
                     return BadRequest();
                 }
-                /*var projectModel = _projectServices.GetProjectByNameAsync(project.Name).Result;
-                if (project.Name ==  projectModel.Name )
-                {
-                    return BadRequest("Project with the same name already exist");
-                }
-                else if(project.Name != projectModel.Name)
-                {
-                    if (projectModel.StartDate > projectModel.CompletionDate)
-                    {
-                        ModelState.AddModelError("CompletionDate", "Completion date cannon be earlier that start date");
-                        return BadRequest(ModelState);
-                    }
-                    else if (project.StartDate == null && project.CompletionDate.HasValue)
-                    {
-                        return BadRequest("Project must stated");
-                    }
-                    
 
-                }*/
                 var createdProject = await _projectServices.AddProjectAsync(project);
                 return createdProject;
-
-
 
             }
             catch (System.Exception)
@@ -89,7 +68,7 @@ namespace WEB_API.Controllers
             }
         }
         [HttpPut("Update/{id}")]
-        public async Task<ActionResult<ProjectDto>> UpdateProjectAsync(int id, ProjectDto project)
+        public async Task<ActionResult<Project>> UpdateProjectAsync(int id, Project project)
         {
             try
             {
@@ -107,7 +86,7 @@ namespace WEB_API.Controllers
             }
         }
         [HttpDelete("Delete/{id}")]
-        public async Task<ActionResult<ProjectDto>> DeleteProjectAsync(int id)
+        public async Task<ActionResult<Project>> DeleteProjectAsync(int id)
         {
             try
             {
